@@ -6,6 +6,9 @@ public class Song  implements Serializable{
     private String name;
     private String artist;
 
+    private int mAudioResourceId;
+
+
 
     // variable for storing the image resource id
     private int mImageResourceId;
@@ -17,6 +20,13 @@ public class Song  implements Serializable{
 
     }
 
+    public Song(String name,String artist,int mImageResourceId,int mAudioResourceId){
+        this.name = name;
+        this.artist = artist;
+        this.mAudioResourceId = mAudioResourceId;
+        this.mImageResourceId = mImageResourceId;
+
+    }
     public Song(String name,String artist){
         this.name = name;
         this.artist = artist;
@@ -34,5 +44,8 @@ public class Song  implements Serializable{
         return mImageResourceId;
     }
 
+    public int getmAudioResourceId(){
+        return mAudioResourceId;
+    }
 
 }

@@ -25,8 +25,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         final List<Song> songs = new ArrayList<>();
-        songs.add(new Song("Bad Liar","Imagine Dragons",R.drawable.song1));
-        songs.add(new Song("Up & Up","Coldplay",R.drawable.song2));
+        songs.add(new Song("Bad Liar","Imagine Dragons",R.drawable.song1,R.raw.badlier));
+        songs.add(new Song("Up & Up","Coldplay",R.drawable.song2,R.raw.upup));
+        songs.add(new Song("Waiting For The End","Linkin Park",R.drawable.song3,R.raw.waitingforend));
+        songs.add(new Song("See You Again","Wiz Khalifa & Charlie Puth",R.drawable.song4,R.raw.seeyouagain));
 
         // songs.add(new Song("Wretches and Kings","Linkin Park"));
         //songs.add(new Song("Matilda","Harry Styles"));
