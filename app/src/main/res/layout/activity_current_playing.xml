@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CurrentPlaying">
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:orientation="vertical">
+       <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="fill_parent"
+           android:layout_weight="1"
+           android:background="@color/black"
+           android:orientation="vertical">
+           <ImageView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_centerVertical="true"
+               android:padding="30dp"
+               android:id="@+id/current_playing"
+               android:src="@drawable/song1"
+               />
+
+       </RelativeLayout>
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="fill_parent"
+           android:background="@color/black"
+           android:layout_weight="2">
+           <RelativeLayout
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               >
+
+               <Button
+                   android:layout_width="80dp"
+                   android:layout_height="80dp"
+                   android:background="@drawable/ic_baseline_play_circle_filled_24"
+                   android:layout_centerHorizontal="true"
+                   android:layout_centerVertical="true"
+                   android:id="@+id/play"/>
+
+               <Button
+                   android:layout_width="70dp"
+                   android:layout_height="70dp"
+                   android:layout_centerVertical="true"
+                   android:layout_marginLeft="50dp"
+                   android:id="@+id/next"
+                   android:layout_toRightOf="@+id/play"
+                   android:background="@drawable/ic_baseline_skip_next_24" />
+               <Button
+                   android:layout_width="70dp"
+                   android:layout_height="70dp"
+                   android:id="@+id/previous"
+                   android:background="@drawable/ic_baseline_skip_previous_24"
+                   android:layout_centerVertical="true"
+                   android:layout_toLeftOf="@+id/play"
+                   android:layout_marginRight="50dp"/>
+
+               <SeekBar
+                   android:id="@+id/simpleSeekBar"
+                   android:layout_width="fill_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_marginTop="30dp"
+                   android:outlineAmbientShadowColor="@color/white"
+                   android:outlineSpotShadowColor="@color/white" />
+
+           </RelativeLayout>
+
+       </LinearLayout>
+   </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
