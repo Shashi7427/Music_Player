@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.Image;
+import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,15 +17,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import java.util.List;
 
 public class CurrentPlaying extends AppCompatActivity {
-    int position;
-    private Boolean playing = false;
-    private MediaPlayer mMediaPlayer;
-    private AudioManager mAudioManager;
-    private Boolean firstStart = true;
+    private static int position;
+    private static Boolean playing = false;
+    private static MediaPlayer mMediaPlayer;
+    private  AudioManager mAudioManager;
+    private static int currentPlayingSong = -1;
+    private static Boolean firstStart = true;
     List<Song> songs;
     private Handler mHandler = new Handler();
 
@@ -36,6 +39,7 @@ public class CurrentPlaying extends AppCompatActivity {
         ImageView image = (ImageView)  findViewById(R.id.current_playing);
         mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
+
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             int resId = bundle.getInt("image");
@@ -43,7 +47,9 @@ public class CurrentPlaying extends AppCompatActivity {
         }
 
         songs = (List<Song>) getIntent().getSerializableExtra("songs");
-        position = (int) getIntent().getIntExtra("position",0   );
+        position = (int) getIntent().getIntExtra("position",0 );
+
+
 
 
         Button next = (Button) findViewById(R.id.next);
@@ -69,13 +75,40 @@ public class CurrentPlaying extends AppCompatActivity {
                 }
             }
         });
+        if(currentPlayingSong == position){
+            mSeekBar.setMax(mMediaPlayer.getDuration()/1000);
+            int mCurrentPosition = mMediaPlayer.getCurrentPosition() / 1000;
+            mSeekBar.setProgress(mCurrentPosition);
+            play.setBackground(getDrawable(R.drawable.ic_baseline_pause_circle_24));
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if(mMediaPlayer != null){
+                        int mCurrentPosition = mMediaPlayer.getCurrentPosition() / 1000;
+                        mSeekBar.setProgress(mCurrentPosition);
+                    }
+                    mHandler.postDelayed(this, 1000);
+                }
+            });
+            currentPlayingSong = -1;
 
+        }
+        else if (mMediaPlayer != null ){
+            playing = false;
+            firstStart = true;
+            currentPlayingSong = -1;
+            releaseMediaPlayer();
+            play.setBackground(getDrawable(R.drawable.ic_baseline_play_circle_filled_24));
+        }
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int len = songs.size();
                 int i = (++position) % len;
+                if (position == len)
+                    position = 0;
                 Song nextsong = songs.get(i);
+                currentPlayingSong = i;
                 image.setImageResource(nextsong.getmImageResourceId());
                 if (mMediaPlayer != null){
                     releaseMediaPlayer();
@@ -95,6 +128,7 @@ public class CurrentPlaying extends AppCompatActivity {
                     position = len - 1;
                 int i = position  % len;
                 Song previousSong = songs.get(i);
+                currentPlayingSong = i;
                 image.setImageResource(previousSong.getmImageResourceId());
                 if (mMediaPlayer != null){
                     releaseMediaPlayer();
@@ -102,6 +136,7 @@ public class CurrentPlaying extends AppCompatActivity {
                     createMedia(song);
                 }
                 play.setBackground(getDrawable(R.drawable.ic_baseline_pause_circle_24));
+
             }
         });
         play.setOnClickListener(new View.OnClickListener() {
@@ -118,7 +153,9 @@ public class CurrentPlaying extends AppCompatActivity {
                     play.setBackground(getDrawable(R.drawable.ic_baseline_pause_circle_24));
                     if (firstStart){
                         Song song = songs.get(position%songs.size());
+                        currentPlayingSong = position;
                         createMedia(song);
+                        mMediaPlayer.start();
                         firstStart = false;
                     }
                     else
@@ -131,6 +168,7 @@ public class CurrentPlaying extends AppCompatActivity {
     private void createMedia(Song song){
         int result = mAudioManager.requestAudioFocus(mOnAudioFocusChangeListener,
                 AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+
 
         if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
             // We have audio focus now.

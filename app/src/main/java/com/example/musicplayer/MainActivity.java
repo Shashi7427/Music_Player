@@ -3,16 +3,10 @@ package com.example.musicplayer;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
-
-import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,10 +23,8 @@ public class MainActivity extends AppCompatActivity {
         songs.add(new Song("Up & Up","Coldplay",R.drawable.song2,R.raw.upup));
         songs.add(new Song("Waiting For The End","Linkin Park",R.drawable.song3,R.raw.waitingforend));
         songs.add(new Song("See You Again","Wiz Khalifa & Charlie Puth",R.drawable.song4,R.raw.seeyouagain));
-
-        // songs.add(new Song("Wretches and Kings","Linkin Park"));
-        //songs.add(new Song("Matilda","Harry Styles"));
-
+        songs.add(new Song("Animals","Martin Garix",R.drawable.animals,R.raw.animals));
+        songs.add(new Song("Despacito","Justin Bieber, Luise Fonsi",R.drawable.despacito,R.raw.despacito));
 
         SongAdapter adapter = new SongAdapter(this,songs);
 
